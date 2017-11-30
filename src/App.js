@@ -14,17 +14,6 @@ class App extends Component {
 
   }
 
-  switchNameHandler = (newName) => {
-    // console.log('was clicked');
-    // this.state.persons[0].name = 'Bum'; (DONT DO THIS)
-    this.setState({
-      persons: [
-      {name: newName, age: 28},
-      {name: 'Bruh', age: 88},
-      {name: 'Cita', age: 1}
-    ]
-  })
-  }
 
   nameChangedHandler = (event) => {
     this.setState({
@@ -34,6 +23,12 @@ class App extends Component {
       {name: 'Cita', age: 1}
     ]
   })
+  }
+
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons;
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
   }
 
   togglePersonsHandler = () => {
@@ -60,19 +55,12 @@ class App extends Component {
     if(this.state.showPersons){
       persons = (
           <div>
-            <Person 
-              name={this.state.persons[0].name} 
-              age={this.state.persons[0].age}/>
-            <Person 
-              name={this.state.persons[1].name} 
-              age={this.state.persons[1].age}
-              //bind is better for performance
-              click={this.switchNameHandler.bind(this, 'Crumb')}
-              changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-
-            <Person 
-              name={this.state.persons[2].name} 
-              age={this.state.persons[2].age}/>
+            {this.state.persons.map((person, index) => {
+              return <Person 
+              name={person.name} 
+              age={person.age}
+              click={() => this.deletePersonHandler(index)}/>
+            })}
           </div>
         );
     }
@@ -85,10 +73,6 @@ class App extends Component {
         style={style}
         onClick={this.togglePersonsHandler}>Toggle Persons</button>
         {persons}
-        
-          
-
-
       </div>
     );
   }
