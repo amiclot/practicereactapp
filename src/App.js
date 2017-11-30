@@ -18,15 +18,19 @@ class App extends Component {
   nameChangedHandler = (event) => {
     this.setState({
       persons: [
-      {name: "Max", age: 28},
-      {name: event.target.value, age: 88},
-      {name: 'Cita', age: 1}
+      {id:'sgjsahzb', name: "Max", age: 28},
+      {id:'agdjda', name: event.target.value, age: 88},
+      {id:'sdlhkla', name: 'Cita', age: 1}
     ]
   })
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+    //add slice to make it better
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    //equivalent to slice 
+    //spread operator - make list of elements
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
   }
@@ -59,7 +63,8 @@ class App extends Component {
               return <Person 
               name={person.name} 
               age={person.age}
-              click={() => this.deletePersonHandler(index)}/>
+              click={() => this.deletePersonHandler(index)}
+              key={person.id} />
             })}
           </div>
         );
